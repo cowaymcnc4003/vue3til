@@ -3,6 +3,8 @@ import {
   // createWebHashHistory,
   createWebHistory,
 } from 'vue-router';
+// import PostCreatePage from '@/views/posts/PostCreatePage.vue';
+// import MainPage from '@/views/main/MainPage.vue';
 
 const routes = [
   {
@@ -24,13 +26,26 @@ const routes = [
     name: 'main',
     component: () => import('@/views/main/MainPage.vue'),
   },
+  // {
+  //   path: '/main',
+  //   children: [
+  //     {
+  //       path: '', // 빈 경로는 부모 경로와 조합하여 /main과 매치됩니다.
+  //       component: () => import('@/views/main/MainPage.vue'),
+  //     },
+  //     {
+  //       path: 'create', // 부모 경로 '/main'에 상대적인 경로를 사용합니다.
+  //       component: () => import('@/views/posts/PostCreatePage.vue'),
+  //     },
+  //   ],
+  // },
   {
     path: '/create',
     name: 'create',
     component: () => import('@/views/posts/PostCreatePage.vue'),
   },
   {
-    path: '/edit',
+    path: '/edit/:id',
     name: 'edit',
     component: () => import('@/views/posts/PostEditPage.vue'),
   },

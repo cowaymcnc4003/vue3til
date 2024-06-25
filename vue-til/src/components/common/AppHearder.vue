@@ -3,21 +3,43 @@
     <div>
       <div class="logo">
         TIL
-        <a>by </a>
+        <router-link :to="`${isLogPath}`">by</router-link>
       </div>
     </div>
     <div class="navigations">
+      <template v-if="isLogin">
+        <a class="logout-button" @click="logout"> Logout </a>
+      </template>
       <!-- 1 -->
-      <a class="logout-button"> Logout </a>
       <!-- 2 -->
-      <a>로그인</a>
-      <a>회원가입</a>
+      <template v-else>
+        <router-link :to="`/login`">로그인</router-link>
+        <router-link :to="`/signup`">회원가입</router-link>
+      </template>
     </div>
   </header>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { deleteCookie } from '@/utils/cookies.js';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const store = useStore();
+const isLogin = computed(() => store.getters['user/isLogin']);
+const isLogPath = computed(() => {
+  return isLogin.value ? '/main' : '/login';
+});
+console.log(`isLogPath ${isLogPath.value}`);
+function logout() {
+  deleteCookie('til_user');
+  deleteCookie('til_auth');
+  store.commit('user/clearToken');
+  store.commit('user/clearUserName');
+  router.push('/login');
+}
 </script>
 
 <style scoped>
